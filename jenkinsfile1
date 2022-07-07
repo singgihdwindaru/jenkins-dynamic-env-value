@@ -1,0 +1,35 @@
+pipeline {
+  agent any
+  environment {
+      REGISTRY='registry.dummy.io/yourAppName'
+      DEPLOYMENT='yourAppName'
+      ENV_DEV='dev'
+      ENV_STG='stg'
+      ENV_PRD='prd'
+      }
+  stages {
+    stage('Using Global Variable') {
+      steps {
+        sh "your need to set up first from manage jenkins > configure system > Then find Environment Variable section"
+        sh "echo REGISTRY_DEV : ${REGISTRY}-${GlobalVarDev}"
+        sh "echo DEPLOYMENT_DEV : ${DEPLOYMENT}-${GlobalVarDev}"
+        sh "echo REGISTRY_STAGING : ${REGISTRY}-${GlobalVarStg}"
+        sh "echo DEPLOYMENT_STAGING : ${DEPLOYMENT}-${GlobalVarStg}"
+        sh "echo REGISTRY_PROD : ${REGISTRY}-${GlobalVarPrd}"
+        sh "echo DEPLOYMENT_PROD : ${DEPLOYMENT}-${GlobalVarPrd}"
+        // sh 'env | sort'
+      }
+    }
+    stage('Using Local Variable') {
+      steps {
+        sh "echo REGISTRY_DEV : ${REGISTRY}-${ENV_DEV}"
+        sh "echo DEPLOYMENT_DEV : ${DEPLOYMENT}-${ENV_DEV}"
+        sh "echo REGISTRY_STAGING : ${REGISTRY}-${ENV_STG}"
+        sh "echo DEPLOYMENT_STAGING : ${DEPLOYMENT}-${ENV_STG}"
+        sh "echo REGISTRY_PROD : ${REGISTRY}-${ENV_PRD}"
+        sh "echo DEPLOYMENT_PROD : ${DEPLOYMENT}-${ENV_PRD}"
+        // sh 'env | sort'
+      }
+    }
+ }
+} 

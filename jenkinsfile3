@@ -1,0 +1,36 @@
+pipeline {
+  agent any
+  environment {
+      REGISTRY='registry.dummy.io/yourAppName'
+      DEPLOYMENT='yourAppName'
+      ENV_DEV='dev'
+      ENV_STG='stg'
+      ENV_PRD='prd'
+      }
+  stages {
+    stage("Using Script"){
+     steps {
+      script {
+         if (env.GIT_BRANCH == 'origin/development') {
+             REGISTRY="${REGISTRY}-${ENV_DEV}"
+             DEPLOYMENT="${REGISTRY}-${ENV_DEV}"
+         }
+         else if (env.GIT_BRANCH == 'origin/staging') {
+             REGISTRY="${REGISTRY}-${ENV_STG}"
+             DEPLOYMENT="${REGISTRY}-${ENV_STG}"
+         }
+         else if (env.GIT_BRANCH == 'origin/master') {
+             REGISTRY="${REGISTRY}-${ENV_PRD}"
+             DEPLOYMENT="${REGISTRY}-${ENV_PRD}"
+         }           
+      }
+     }
+  }
+  stage("Using Script Part 2"){
+       steps {
+        sh "echo REGISTRY : ${REGISTRY}"
+        sh "echo DEPLOYMENT : ${DEPLOYMENT}"
+       }
+  }
+ }
+} 
