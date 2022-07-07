@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Using Global Variable') {
       steps {
-        sh "your need to set up first from manage jenkins > configure system > Then find Environment Variable section"
+        sh "echo your need to set up first from manage jenkins > configure system > Then find Environment Variable section"
         sh "echo REGISTRY_DEV : ${REGISTRY}-${GlobalVarDev}"
         sh "echo DEPLOYMENT_DEV : ${DEPLOYMENT}-${GlobalVarDev}"
         sh "echo REGISTRY_STAGING : ${REGISTRY}-${GlobalVarStg}"
