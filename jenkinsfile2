@@ -3,27 +3,27 @@ pipeline {
   environment {
       REGISTRY='registry.dummy.io/yourAppName'
       DEPLOYMENT='yourAppName'
+      ENVIRONMENT='prd'
       }
   stages {
     stage("Using Script"){
      steps {
       script {
          if (env.GIT_BRANCH == 'origin/development') {
-             REGISTRY="${REGISTRY}-dev"
-             DEPLOYMENT="${REGISTRY}-dev"
+             ENVIRONMENT='dev'
          }
          else if (env.GIT_BRANCH == 'origin/staging') {
-             REGISTRY="${REGISTRY}-stg"
-             DEPLOYMENT="${REGISTRY}-stg"
+             ENVIRONMENT='stg'
          }
          else if (env.GIT_BRANCH == 'origin/master') {
-             REGISTRY="${REGISTRY}-prd"
-             DEPLOYMENT="${REGISTRY}-prd"
+             ENVIRONMENT='prd'
          }           
       }
+        REGISTRY="${REGISTRY}-${ENVIRONMENT}"
+        DEPLOYMENT="${REGISTRY}-${ENVIRONMENT}"
      }
   }
-  stage("Using Script Part 2"){
+  stage("Using Script in another stage"){
        steps {
         sh "echo REGISTRY : ${REGISTRY}"
         sh "echo DEPLOYMENT : ${DEPLOYMENT}"
